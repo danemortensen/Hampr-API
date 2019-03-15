@@ -1,10 +1,15 @@
 package main
 
 import (
-   "github.com/danemortensen/hampr/pkg/server"
+    "github.com/danemortensen/Hampr-API/pkg/config"
+    "github.com/danemortensen/Hampr-API/pkg/db"
+    "github.com/danemortensen/Hampr-API/pkg/server"
 )
 
 func main() {
-   s := server.NewServer()
-   s.Start()
+    config := config.NewConfig()
+    session := db.NewSession(config.Mongo)
+    defer session.Close()
+    server := server.NewServer(config.Server)
+    server.Start()
 }

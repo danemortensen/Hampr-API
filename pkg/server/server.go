@@ -1,23 +1,28 @@
 package server
 
 import (
-   "log"
-   "net/http"
+    "log"
+    "net/http"
 
-   "github.com/go-chi/chi"
+    "github.com/go-chi/chi"
+
+    "github.com/danemortensen/Hampr-API/pkg/config"
 )
 
 type Server struct {
-   router *chi.Mux
+    config *config.ServerConfig
+    router *chi.Mux
 }
 
-func NewServer() *Server {
-   return &Server {
-      router: chi.NewRouter(),
-   }
+func NewServer(config *config.ServerConfig) *Server {
+    return &Server {
+        config: config,
+        router: chi.NewRouter(),
+    }
 }
 
 func (s *Server) Start() {
-   log.Println("Listening on port 8080")
-   log.Fatal(http.ListenAndServe(":8080", s.router))
+    port := s.config.Port
+    log.Printf("Listening on port %s\n", port)
+    log.Fatal(http.ListenAndServe(port, s.router))
 }
