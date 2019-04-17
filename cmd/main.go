@@ -6,10 +6,36 @@ import (
     "github.com/danemortensen/Hampr-API/pkg/server"
 )
 
-func main() {
+type App struct {
+    server *server.Server
+    session *db.Session
+    config *config.Config
+}
+
+func NewApp() *App {
     config := config.NewConfig()
     session := db.NewSession(config.Mongo)
-    defer session.Close()
     server := server.NewServer(config.Server)
-    server.Start()
+    app := App {
+        server: server,
+        session: session,
+        config: config,
+    }
+    return &app
+}
+
+func (a *App) Run() {
+    defer a.session.Close()
+    a.server.Start()
+}
+
+func main() {
+    // config := config.NewConfig()
+    // session := db.NewSession(config.Mongo)
+    // defer session.Close()
+    // server := server.NewServer(config.Server)
+    // server.Start()
+
+    a := NewApp()
+    a.Run()
 }

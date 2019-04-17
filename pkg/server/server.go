@@ -15,9 +15,12 @@ type Server struct {
 }
 
 func NewServer(config *config.ServerConfig) *Server {
+    r := chi.NewRouter()
+    r.Mount("/garment", newGarmentRouter())
+
     return &Server {
         config: config,
-        router: chi.NewRouter(),
+        router: r,
     }
 }
 
