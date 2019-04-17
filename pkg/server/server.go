@@ -15,14 +15,22 @@ type Server struct {
 }
 
 func NewServer(config *config.ServerConfig) *Server {
-    return &Server {
+    s := Server {
         config: config,
         router: chi.NewRouter(),
     }
+    s.registerHandlers()
+    return &s
 }
 
 func (s *Server) Start() {
     port := s.config.Port
     log.Printf("Listening on port %s\n", port)
     log.Fatal(http.ListenAndServe(port, s.router))
+}
+
+func (s *Server) registerHandlers() {
+    s.router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+        w.Write([]byte("hello"))
+    })
 }
