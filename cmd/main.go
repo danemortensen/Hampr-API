@@ -15,7 +15,7 @@ type App struct {
 func NewApp() *App {
     config := config.NewConfig()
     session := db.NewSession(config.Mongo)
-    server := server.NewServer(config.Server)
+    server := server.NewServer(config.Server, session)
     app := App {
         server: server,
         session: session,
