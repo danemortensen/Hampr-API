@@ -32,3 +32,7 @@ func (s *Session) Close() {
         s.session.Close()
     }
 }
+
+// func (m *MongoConfig) Insert() error {
+//     err :=
+// }

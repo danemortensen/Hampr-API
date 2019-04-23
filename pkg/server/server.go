@@ -16,7 +16,8 @@ type Server struct {
 
 func NewServer(config *config.ServerConfig) *Server {
     r := chi.NewRouter()
-    r.Mount("/garment", newGarmentRouter())
+
+
 
     s := Server {
         config: config,
@@ -29,6 +30,9 @@ func NewServer(config *config.ServerConfig) *Server {
 func (s *Server) Start() {
     port := s.config.Port
     log.Printf("Listening on port %s\n", port)
+    log.Printf("%s\n", s.config.Auth.Secret)
+    s.router.Get("/auth/code", s.handleAuthCode)
+    s.router.Mount("/garment", s.newGarmentRouter())
     log.Fatal(http.ListenAndServe(port, s.router))
 }
 

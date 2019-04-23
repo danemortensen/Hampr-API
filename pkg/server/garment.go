@@ -5,22 +5,22 @@ import (
     "errors"
     "net/http"
 
+    "github.com/danemortensen/Hampr-API/pkg"
+
     "github.com/go-chi/chi"
 )
 
-type Garment struct {
-    Name string
+type GarmentRouter struct {
+    gs root.GarmentService
 }
 
-func newGarmentRouter() http.Handler {
+func (s *Server) newGarmentRouter() http.Handler {
     r := chi.NewRouter()
     r.Post("/new", addGarmentHandler)
     return r
 }
 
-func addGarmentHandler(w http.ResponseWriter, r *http.Request) {
-    defer r.Body.Close()
-
+func (s *Server) addGarmentHandler(w http.ResponseWriter, r *http.Request) {
     // g, err := decodeGarment(r)
     // if err != nil {
     //     respondWithError(w, http.StatusBadRequest, "Invalid request payload")

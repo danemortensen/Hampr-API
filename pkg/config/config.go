@@ -9,8 +9,14 @@ type MongoConfig struct {
     dbName  string
 }
 
+type AuthConfig struct {
+    Id string
+    Secret string
+}
+
 type ServerConfig struct {
     Port    string
+    Auth *AuthConfig
 }
 
 type Config struct {
@@ -23,8 +29,13 @@ func NewConfig() *Config {
         Ip: getEnv("hampr:mongo:ip", "localhost:27017"),
         dbName: getEnv("hampr:mongo:db", "hampr"),
     }
+    authConfig := &AuthConfig {
+        Id: os.Getenv("HAMPR_CLIENT_ID"),
+        Secret: os.Getenv("HAMPR_CLIENT_SECRET"),
+    }
     serverConfig := &ServerConfig {
         Port: getEnv("hampr:server:port", ":8080"),
+        Auth: authConfig,
     }
     return &Config {
         Mongo: mongoConfig,
