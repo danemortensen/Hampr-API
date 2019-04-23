@@ -36,4 +36,6 @@ func (gr *garmentRouter) createGarmentHandler(w http.ResponseWriter,
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
+
+    respond(w, http.StatusOK, nil)
 }
