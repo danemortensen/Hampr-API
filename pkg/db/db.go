@@ -2,14 +2,15 @@ package db
 
 import (
     "log"
-
     "gopkg.in/mgo.v2"
-
+    "gopkg.in/mgo.v2/bson"
     "github.com/danemortensen/Hampr-API/pkg/config"
+
 )
 
 type Session struct {
     session *mgo.Session
+    config *config.MongoConfig
 }
 
 func NewSession(config *config.MongoConfig) *Session {
@@ -19,12 +20,19 @@ func NewSession(config *config.MongoConfig) *Session {
     }
     s := &Session {
         session: session,
+        config: config,
     }
     return s
 }
 
-func (s *Session) Copy() *mgo.Session {
-    return s.session.Copy()
+func (s *Session) Find(collection string, query bson.M, result *bson.M) {
+    session := s.session.Copy()
+    defer session.Close()
+    c := session.DB(s.config.DbName).C(collection)
+    err := c.Find(query).One(result)
+    if err != nil {
+        log.Fatal(err)
+    }
 }
 
 func (s *Session) Close() {

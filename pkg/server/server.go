@@ -7,22 +7,28 @@ import (
     "github.com/go-chi/chi"
 
     "github.com/danemortensen/Hampr-API/pkg/config"
+    "github.com/danemortensen/Hampr-API/pkg/db"
 )
 
 type Server struct {
-    config *config.ServerConfig
+
     router *chi.Mux
+    session *db.Session
+    config *config.ServerConfig
 }
 
-func NewServer(config *config.ServerConfig) *Server {
+func NewServer(config *config.ServerConfig, session *db.Session) *Server {
+    o := newOutfitRouter(session)
     r := chi.NewRouter()
     r.Mount("/garment", newGarmentRouter())
-
+    r.Mount("/outfit", o.router)
     s := Server {
-        config: config,
+
         router: r,
+        session: session,
+        config: config,
     }
-    s.registerHandlers()
+
     return &s
 }
 
@@ -30,10 +36,4 @@ func (s *Server) Start() {
     port := s.config.Port
     log.Printf("Listening on port %s\n", port)
     log.Fatal(http.ListenAndServe(port, s.router))
-}
-
-func (s *Server) registerHandlers() {
-    s.router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("hello"))
-    })
 }
