@@ -6,5 +6,5 @@ type Garment struct {
 }
 
 type GarmentService interface {
-    CreateGarment(g *Garment) error
+    InsertGarment(g *Garment) error
 }

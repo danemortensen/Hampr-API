@@ -6,7 +6,7 @@ import (
 
 type MongoConfig struct {
     Ip      string
-    dbName  string
+    DbName  string
 }
 
 type AuthConfig struct {
@@ -27,7 +27,7 @@ type Config struct {
 func NewConfig() *Config {
     mongoConfig := &MongoConfig {
         Ip: getEnv("hampr:mongo:ip", "localhost:27017"),
-        dbName: getEnv("hampr:mongo:db", "hampr"),
+        DbName: getEnv("hampr:mongo:db", "hampr"),
     }
     authConfig := &AuthConfig {
         Id: os.Getenv("HAMPR_CLIENT_ID"),
