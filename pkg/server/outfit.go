@@ -6,6 +6,7 @@ import (
     "github.com/go-chi/chi"
     "github.com/danemortensen/Hampr-API/pkg/db"
     "gopkg.in/mgo.v2/bson"
+    //"log"
 )
 
 type Outfit struct {
@@ -42,11 +43,13 @@ func (o *outfitRouter) getUser(w http.ResponseWriter, r *http.Request) {
         return
     }
     o.session.Find("users", bson.M{"_id": body["userId"]}, &result)
-    if str, ok := result["email"].(string); ok {
-        w.Write([]byte(str))
-    } else {
-        http.Error(w, "Invalid Email Type", 500)
-    }
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(result)
+    // bin, err := bson.Marshal(result)
+    // if err != nil {
+    //     log.Print(err)
+    // }
+    // w.Write(bin)
 }
 
 func addOutfitHandler(w http.ResponseWriter, r *http.Request) {

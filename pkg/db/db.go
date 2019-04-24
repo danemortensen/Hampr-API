@@ -31,7 +31,7 @@ func (s *Session) Find(collection string, query bson.M, result *bson.M) {
     c := session.DB(s.config.DbName).C(collection)
     err := c.Find(query).One(result)
     if err != nil {
-        log.Fatal(err)
+        log.Print(err)
     }
 }
 
