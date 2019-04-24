@@ -24,7 +24,7 @@ func NewServer(gs root.GarmentService, config *config.ServerConfig) *Server {
         garmentService: gs,
         router: r,
     }
-    s.registerHandlers()
+
     return &s
 }
 
@@ -37,10 +37,4 @@ func (s *Server) Start() {
     // s.router.Mount("/garment", s.newGarmentRouter())
     newGarmentRouter(s.garmentService, s.router)
     log.Fatal(http.ListenAndServe(port, s.router))
-}
-
-func (s *Server) registerHandlers() {
-    s.router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("hello"))
-    })
 }
