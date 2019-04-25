@@ -31,10 +31,17 @@ func NewServer(gs root.GarmentService, config *config.ServerConfig) *Server {
 func (s *Server) Start() {
     port := s.config.Port
     log.Printf("Listening on port %s\n", port)
-    log.Printf("%s\n", s.config.Auth.Secret)
-    s.router.Get("/auth/code", s.handleAuthCode)
-    // s.router.Route("/garment", )
-    // s.router.Mount("/garment", s.newGarmentRouter())
-    newGarmentRouter(s.garmentService, s.router)
+    log.Printf("%s\n", s.config.Auth.AppSecret)
+
+    s.router.Mount("/auth", s.newAuthRouter())
+    s.router.Mount("/api", s.newApiRouter())
+
     log.Fatal(http.ListenAndServe(port, s.router))
+}
+
+func (s *Server) newApiRouter() *chi.Mux {
+    apiRouter := chi.NewRouter()
+    //apiRouter.Use(authMiddleware)
+    apiRouter.Mount("/garment", s.newGarmentRouter())
+    return apiRouter
 }

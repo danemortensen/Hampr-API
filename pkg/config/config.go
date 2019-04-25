@@ -10,8 +10,8 @@ type MongoConfig struct {
 }
 
 type AuthConfig struct {
-    Id string
-    Secret string
+    AppId string
+    AppSecret string
 }
 
 type ServerConfig struct {
@@ -30,8 +30,8 @@ func NewConfig() *Config {
         DbName: getEnv("hampr:mongo:db", "hampr"),
     }
     authConfig := &AuthConfig {
-        Id: os.Getenv("HAMPR_CLIENT_ID"),
-        Secret: os.Getenv("HAMPR_CLIENT_SECRET"),
+        AppId: os.Getenv("HAMPR_APP_ID"),
+        AppSecret: os.Getenv("HAMPR_APP_SECRET"),
     }
     serverConfig := &ServerConfig {
         Port: getEnv("hampr:server:port", ":8080"),

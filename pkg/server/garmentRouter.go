@@ -13,13 +13,13 @@ type garmentRouter struct {
     garmentService root.GarmentService
 }
 
-func newGarmentRouter(g root.GarmentService, r *chi.Mux) {
+func (s *Server) newGarmentRouter() *chi.Mux {
     subrouter := chi.NewRouter()
     garmentRouter := &garmentRouter {
-        garmentService: g,
+        garmentService: s.garmentService,
     }
-    subrouter.Post("/new", garmentRouter.createGarmentHandler)
-    r.Mount("/garment", subrouter)
+    subrouter.Post("/create", garmentRouter.createGarmentHandler)
+    return subrouter
 }
 
 func (gr *garmentRouter) createGarmentHandler(w http.ResponseWriter,
