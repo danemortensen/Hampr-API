@@ -39,9 +39,14 @@ func (s *Server) Start() {
     log.Fatal(http.ListenAndServe(port, s.router))
 }
 
+func (s *Server) loginHandler(w http.ResponseWriter, r *http.Request) {
+    respond(w, http.StatusOK, map[string]interface{}{"loggedIn": true})
+}
+
 func (s *Server) newApiRouter() *chi.Mux {
     apiRouter := chi.NewRouter()
-    //apiRouter.Use(authMiddleware)
+    apiRouter.Use(s.authMiddleware)
     apiRouter.Mount("/garment", s.newGarmentRouter())
+    apiRouter.Get("/login", s.loginHandler)
     return apiRouter
 }
