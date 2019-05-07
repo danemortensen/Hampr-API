@@ -1,0 +1,60 @@
+{
+    "_id": "12345",
+    "profile": {
+        "name": "Hampr User",
+        "email": "user@hampr.com",
+        "phone": "123-456-7890"
+    },
+    "data": {
+        "outfits": {
+            "0": {
+                "id": "0",
+                "name": "Outfit 0",
+                "src": "http://placehold.it/200x200?text=Outfit_0",
+                "dates": [],
+                "garments": ["0", "1"]
+            },
+            "1": {
+                "id": "1",
+                "name": "Outfit 1",
+                "src": "http://placehold.it/200x200?text=Outfit_1",
+                "dates": [],
+                "garments": ["2"]
+            },
+            "2": {
+                "id": "2",
+                "name": "Outfit 2",
+                "src": "http://placehold.it/200x200?text=Outfit_2",
+                "dates": [],
+                "garments": ["0"]
+            }
+        },
+        "garments": {
+            "0": {
+                "id": "0",
+                "name": "Garment 0",
+                "src": "http://placehold.it/200x200?text=Garment_0",
+                "brand": "Gucci",
+                "types": ["Type A"],
+                "tags": ["Tag A","Tag B"]
+            },
+            "1": {
+                "id": "1",
+                "name": "Garment 1",
+                "src":"http://placehold.it/200x200?text=Garment_1",
+                "brand": "Fendi",
+                "types": ["Type B","Type C"],
+                "tags": ["Tag C"]
+            },
+            "2": {
+                "id": "2",
+                "name": "Garment 2",
+                "src": "http://placehold.it/200x200?text=Garment_2",
+                "brand": "Prada",
+                "types": ["Type C"],
+                "tags": ["Tag A"]
+            }
+        }
+    },
+    "configs": {}
+}

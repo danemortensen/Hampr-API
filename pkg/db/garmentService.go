@@ -7,6 +7,16 @@ import (
     "github.com/danemortensen/Hampr-API/pkg/config"
 )
 
+/**
+
+Use the following names for all service operations:
+Insert
+Find
+Update
+Delete
+
+**/
+
 type GarmentService struct {
     collection *mgo.Collection
 }

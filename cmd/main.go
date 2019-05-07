@@ -16,10 +16,10 @@ func NewApp() *App {
     config := config.NewConfig()
 
     session := db.NewSession(config.Mongo)
-
     garmentService := db.NewGarmentService(session.Copy(), config.Mongo)
+    userService := db.NewUserService(session.Copy(), config.Mongo)
 
-    server := server.NewServer(garmentService, config.Server)
+    server := server.NewServer(garmentService, userService, config.Server)
 
     app := App {
         server: server,

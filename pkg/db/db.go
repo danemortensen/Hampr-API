@@ -29,22 +29,8 @@ func (s *Session) Copy() *mgo.Session {
     return s.session.Copy()
 }
 
-func (s *Session) Find(collection string, query bson.M, result *bson.M) {
-    session := s.session.Copy()
-    defer session.Close()
-    c := session.DB(s.config.DbName).C(collection)
-    err := c.Find(query).One(result)
-    if err != nil {
-        log.Print(err)
-    }
-}
-
 func (s *Session) Close() {
     if (s.session != nil) {
         s.session.Close()
     }
 }
-
-// func (m *MongoConfig) Insert() error {
-//     err :=
-// }
