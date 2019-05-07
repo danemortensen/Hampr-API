@@ -2,7 +2,6 @@ package server
 
 import (
     "log"
-    "fmt"
     "net/http"
     "github.com/danemortensen/Hampr-API/pkg"
     "github.com/go-chi/chi"
@@ -39,20 +38,26 @@ func (ur *userRouter) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 func (ur *userRouter) findUserHandler(w http.ResponseWriter,
         r *http.Request) {
-    ids, ok := r.URL.Query()["id"]
-    if !ok || len(ids[0]) < 1 {
-        respondWithError(w, http.StatusBadRequest, "Loading error")
-        log.Println("Url Param 'id' is missing")
-        return
-    }
-
     var user bson.M
-    err := ur.userService.FindUser(ids[0], &user)
+    authId := r.Header.Get("authId")
+    err := ur.userService.FindUser(authId, &user)
 
     if err != nil {
-        respondWithError(w, http.StatusInternalServerError, "Loading error")
-        log.Println("Unable to find user in database")
-        return
+        log.Printf("User %s not in DB\n", authId)
+        err = ur.userService.InsertUser(authId)
+        log.Println("check1")
+        if err != nil {
+            respondWithError(w, http.StatusInternalServerError, "Loading error")
+            log.Printf("Unable to insert user into db")
+            return
+        }
+        log.Println("check2")
+        err = ur.userService.FindUser(authId, &user)
+        if err != nil {
+            respondWithError(w, http.StatusInternalServerError, "Loading error")
+            log.Printf("Unable to find user after inserting")
+            return
+        }
     }
 
     respond(w, http.StatusOK, user)

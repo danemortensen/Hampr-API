@@ -3,7 +3,6 @@ package db
 import (
     "log"
     "gopkg.in/mgo.v2"
-    "gopkg.in/mgo.v2/bson"
     "github.com/danemortensen/Hampr-API/pkg/config"
 
 )
