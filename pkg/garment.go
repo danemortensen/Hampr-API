@@ -1,10 +1,9 @@
 package root
 
-type Garment struct {
-    Name string
-    Brand string
-}
+import (
+    "gopkg.in/mgo.v2/bson"
+)
 
 type GarmentService interface {
-    InsertGarment(g *Garment) error
+    InsertGarment(authId string, garment *bson.M) error
 }

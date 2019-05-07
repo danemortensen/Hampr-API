@@ -41,6 +41,6 @@ func (s *Server) newApiRouter() *chi.Mux {
     apiRouter := chi.NewRouter()
     apiRouter.Use(s.authMiddleware)
     apiRouter.Mount("/user", s.newUserRouter())
-    apiRouter.Mount("/garment", s.newGarmentRouter())
+    apiRouter.Mount("/garments", s.newGarmentRouter())
     return apiRouter
 }

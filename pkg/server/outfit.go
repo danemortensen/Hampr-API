@@ -8,14 +8,6 @@ import (
     //"log"
 )
 
-type Outfit struct {
-    Id string
-    Name string
-    Photo string
-    Garments []string
-    Dates []string
-}
-
 type outfitRouter struct {
     session *db.Session
     router *chi.Mux
