@@ -34,11 +34,6 @@ func (us *UserService) FindUser(authId string, user *bson.M) error {
 }
 
 func (us *UserService) InsertUser(authId string) error {
-
     user := bson.M{"_id": authId, "outfits": bson.M{}, "garments": bson.M{}, "score": 0.0}
-    // user["_id"] = authId
-    // user["outfits"] = nil
-    // user["garments"] = nil
-    // user["score"] = 0.0
     return us.collection.Insert(user)
 }

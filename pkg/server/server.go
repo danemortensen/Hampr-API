@@ -11,15 +11,20 @@ import (
 type Server struct {
     config *config.ServerConfig
     garmentService root.GarmentService
+    outfitService root.OutfitService
     userService root.UserService
     router *chi.Mux
 }
 
-func NewServer(gs root.GarmentService, us root.UserService, config *config.ServerConfig) *Server {
+func NewServer(gs root.GarmentService,
+               os root.OutfitService,
+               us root.UserService,
+               config *config.ServerConfig) *Server {
     r := chi.NewRouter()
     s := Server {
         config: config,
         garmentService: gs,
+        outfitService: os,
         userService: us,
         router: r,
     }
@@ -42,5 +47,6 @@ func (s *Server) newApiRouter() *chi.Mux {
     apiRouter.Use(s.authMiddleware)
     apiRouter.Mount("/user", s.newUserRouter())
     apiRouter.Mount("/garment", s.newGarmentRouter())
+    apiRouter.Mount("/outfit", s.newOutfitRouter())
     return apiRouter
 }

@@ -3,8 +3,9 @@ package db
 import (
     "gopkg.in/mgo.v2"
 
-    "github.com/danemortensen/Hampr-API/pkg"
     "github.com/danemortensen/Hampr-API/pkg/config"
+    "gopkg.in/mgo.v2/bson"
+    //"log"
 )
 
 /**
@@ -22,12 +23,23 @@ type GarmentService struct {
 }
 
 func NewGarmentService(s *mgo.Session, c *config.MongoConfig) *GarmentService {
-    collection := s.DB(c.DbName).C("garment")
+    collection := s.DB(c.DbName).C("users")
     return &GarmentService {
         collection: collection,
     }
 }
 
-func (gs *GarmentService) InsertGarment(g *root.Garment) error {
-    return gs.collection.Insert(&g)
+func (gs *GarmentService) InsertGarment(authId string, garment *bson.M) error {
+    garmentId := (*garment)["id"].(string)
+    return gs.collection.UpdateId(authId,
+        bson.M{"$set": bson.M{"garments." + garmentId: *garment}})
+}
+
+func (gs *GarmentService) DeleteGarment(authId string, garmentId string) error {
+    // err := gs.collection.UpdateId(authId,
+    //     bson.M{"$pull": bson.M{"outfits": bson.M{}}}
+    // )
+    // return gs.collection.UpdateId(authId,
+    //     bson.M{"$unset": bson.M{"garments." + garmentId: ""}})
+    return nil
 }
