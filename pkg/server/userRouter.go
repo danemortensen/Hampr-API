@@ -29,6 +29,7 @@ func (s *Server) newUserRouter() *chi.Mux {
     }
     subrouter.Get("/login", ur.loginHandler)
     subrouter.Get("/find", ur.findUserHandler)
+    subrouter.Put("/delete", ur.deleteUserHandler)
     return subrouter
 }
 
@@ -61,4 +62,18 @@ func (ur *userRouter) findUserHandler(w http.ResponseWriter,
     }
 
     respond(w, http.StatusOK, user)
+}
+
+func (ur *userRouter) deleteUserHandler(w http.ResponseWriter,
+        r *http.Request) {
+    userId := r.Header.Get("authId")
+    log.Println(userId)
+    err := ur.userService.DeleteUser(userId)
+    if err != nil {
+        respondWithError(w, http.StatusInternalServerError,
+            "Error deleting user")
+        log.Printf("Unable to delete user %s from database\n", userId)
+        return
+    }
+    respond(w, http.StatusOK, nil)
 }

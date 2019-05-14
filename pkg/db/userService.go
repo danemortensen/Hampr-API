@@ -37,3 +37,7 @@ func (us *UserService) InsertUser(authId string) error {
     user := bson.M{"_id": authId, "outfits": bson.M{}, "garments": bson.M{}, "score": 0.0}
     return us.collection.Insert(user)
 }
+
+func (us *UserService) DeleteUser(authId string) error {
+    return us.collection.Remove(bson.M{"_id": authId})
+}
