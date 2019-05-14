@@ -11,6 +11,16 @@ import (
     "log"
 )
 
+/**
+
+Use the following names for all service operations:
+Insert
+Find
+Update
+Delete
+
+**/
+
 type garmentRouter struct {
     garmentService root.GarmentService
 }
@@ -28,7 +38,6 @@ func (gr *garmentRouter) insertGarmentHandler(w http.ResponseWriter, r *http.Req
     var garment bson.M
     authId := r.Header.Get("authId")
     err := json.NewDecoder(r.Body).Decode(&garment)
-    log.Println("handler hit")
     if err != nil {
         respondWithError(w, http.StatusBadRequest, "Invalid request body")
         log.Println("Invalid request body for insertGarmentHandler")
@@ -36,8 +45,26 @@ func (gr *garmentRouter) insertGarmentHandler(w http.ResponseWriter, r *http.Req
     }
     err = gr.garmentService.InsertGarment(authId, &garment)
     if err != nil {
-        respondWithError(w, http.StatusInternalServerError, "Uploading error")
+        respondWithError(w, http.StatusInternalServerError, "Upload error")
         log.Println("Unable to insert garment into db")
+        return
+    }
+    respond(w, http.StatusOK, nil)
+}
+
+func (gr *garmentRouter) deleteGarmentHandler(w http.ResponseWriter, r *http.Request) {
+    var garmentId string
+    authId := r.Header.Get("authId")
+    err := json.NewDecoder(r.Body).Decode(&garmentId)
+    if err != nil {
+        respondWithError(w, http.StatusBadRequest, "Invalid request body")
+        log.Println("Invalid request body for deleteGarmentHandler")
+        return
+    }
+    err = gr.garmentService.DeleteGarment(authId, garmentId)
+    if err != nil {
+        respondWithError(w, http.StatusInternalServerError, "Upload error")
+        log.Println("Unable to delete garment from db")
         return
     }
     respond(w, http.StatusOK, nil)

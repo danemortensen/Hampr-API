@@ -6,4 +6,5 @@ import (
 
 type GarmentService interface {
     InsertGarment(authId string, garment *bson.M) error
+    DeleteGarment(authId string, garmentId string) error
 }

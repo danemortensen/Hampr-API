@@ -17,9 +17,10 @@ func NewApp() *App {
 
     session := db.NewSession(config.Mongo)
     garmentService := db.NewGarmentService(session.Copy(), config.Mongo)
+    outfitService := db.NewOutfitService(session.Copy(), config.Mongo)
     userService := db.NewUserService(session.Copy(), config.Mongo)
 
-    server := server.NewServer(garmentService, userService, config.Server)
+    server := server.NewServer(garmentService, outfitService, userService, config.Server)
 
     app := App {
         server: server,
@@ -35,12 +36,6 @@ func (a *App) Run() {
 }
 
 func main() {
-    // config := config.NewConfig()
-    // session := db.NewSession(config.Mongo)
-    // defer session.Close()
-    // server := server.NewServer(config.Server)
-    // server.Start()
-
     a := NewApp()
     a.Run()
 }

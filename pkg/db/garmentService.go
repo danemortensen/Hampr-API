@@ -34,3 +34,12 @@ func (gs *GarmentService) InsertGarment(authId string, garment *bson.M) error {
     return gs.collection.UpdateId(authId,
         bson.M{"$set": bson.M{"garments." + garmentId: *garment}})
 }
+
+func (gs *GarmentService) DeleteGarment(authId string, garmentId string) error {
+    // err := gs.collection.UpdateId(authId,
+    //     bson.M{"$pull": bson.M{"outfits": bson.M{}}}
+    // )
+    // return gs.collection.UpdateId(authId,
+    //     bson.M{"$unset": bson.M{"garments." + garmentId: ""}})
+    return nil
+}
