@@ -12,4 +12,5 @@ type User struct {
 type UserService interface {
     FindUser(authId string, user *bson.M) error
     InsertUser(authId string) error
+    DeleteUser(authId string) error
 }
