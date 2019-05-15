@@ -45,13 +45,11 @@ func (ur *userRouter) findUserHandler(w http.ResponseWriter,
     if err != nil {
         log.Printf("User %s not in DB\n", authId)
         err = ur.userService.InsertUser(authId)
-        log.Println("check1")
         if err != nil {
             respondWithError(w, http.StatusInternalServerError, "Loading error")
             log.Printf("Unable to insert user into db")
             return
         }
-        log.Println("check2")
         err = ur.userService.FindUser(authId, &user)
         if err != nil {
             respondWithError(w, http.StatusInternalServerError, "Loading error")

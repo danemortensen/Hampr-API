@@ -2,10 +2,9 @@ package db
 
 import (
     "gopkg.in/mgo.v2"
-
     "github.com/danemortensen/Hampr-API/pkg/config"
     "gopkg.in/mgo.v2/bson"
-    //"log"
+    "fmt"
 )
 
 /**
@@ -33,13 +32,14 @@ func (gs *GarmentService) InsertGarment(authId string, garment *bson.M) error {
     garmentId := (*garment)["id"].(string)
     return gs.collection.UpdateId(authId,
         bson.M{"$set": bson.M{"garments." + garmentId: *garment}})
+
 }
 
-func (gs *GarmentService) DeleteGarment(authId string, garmentId string) error {
-    // err := gs.collection.UpdateId(authId,
-    //     bson.M{"$pull": bson.M{"outfits": bson.M{}}}
-    // )
-    // return gs.collection.UpdateId(authId,
-    //     bson.M{"$unset": bson.M{"garments." + garmentId: ""}})
-    return nil
+func (gs *GarmentService) DeleteGarment(authId string, garmentId string, outfitIds []string) error {
+    pullQuery := bson.M{}
+    for _, outfitId := range outfitIds {
+        key := fmt.Sprintf("outfits.%s.garments", outfitId)
+        pullQuery[key] = garmentId
+    }
+    return gs.collection.UpdateId(authId, bson.M{"$pull": pullQuery})
 }

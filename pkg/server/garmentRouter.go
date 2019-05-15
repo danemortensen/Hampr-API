@@ -31,6 +31,7 @@ func (s *Server) newGarmentRouter() *chi.Mux {
         garmentService: s.garmentService,
     }
     subrouter.Post("/insert", garmentRouter.insertGarmentHandler)
+    subrouter.Delete("/delete", garmentRouter.deleteGarmentHandler)
     return subrouter
 }
 
@@ -53,15 +54,19 @@ func (gr *garmentRouter) insertGarmentHandler(w http.ResponseWriter, r *http.Req
 }
 
 func (gr *garmentRouter) deleteGarmentHandler(w http.ResponseWriter, r *http.Request) {
-    var garmentId string
+    var body bson.M
     authId := r.Header.Get("authId")
-    err := json.NewDecoder(r.Body).Decode(&garmentId)
+    err := json.NewDecoder(r.Body).Decode(&body)
     if err != nil {
-        respondWithError(w, http.StatusBadRequest, "Invalid request body")
-        log.Println("Invalid request body for deleteGarmentHandler")
-        return
+      respondWithError(w, http.StatusBadRequest, "Invalid request body")
+      log.Println("Invalid request body for deleteGarmentHandler")
     }
-    err = gr.garmentService.DeleteGarment(authId, garmentId)
+    garmentId := body["garmentId"].(string)
+    outfitIds := make([]string, len(body["outfitIds"].([]interface{})))
+    for index, id := range body["outfitIds"].([]interface{}) {
+      outfitIds[index] = id.(string)
+    }
+    err = gr.garmentService.DeleteGarment(authId, garmentId, outfitIds)
     if err != nil {
         respondWithError(w, http.StatusInternalServerError, "Upload error")
         log.Println("Unable to delete garment from db")
