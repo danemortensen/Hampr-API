@@ -30,7 +30,8 @@
             "src": "http://placehold.it/200x200?text=Garment_0",
             "brand": "Gucci",
             "types": ["Type A"],
-            "tags": ["Tag A","Tag B"]
+            "tags": ["Tag A","Tag B"],
+	    "date": "2019/5/14"
         },
         "1": {
             "id": "1",
@@ -38,7 +39,8 @@
             "src":"http://placehold.it/200x200?text=Garment_1",
             "brand": "Fendi",
             "types": ["Type B","Type C"],
-            "tags": ["Tag C"]
+            "tags": ["Tag C"],
+	    "date": "2019/5/13"
         },
         "2": {
             "id": "2",
@@ -46,7 +48,8 @@
             "src": "http://placehold.it/200x200?text=Garment_2",
             "brand": "Prada",
             "types": ["Type C"],
-            "tags": ["Tag A"]
+            "tags": ["Tag A"],
+	    "date": "2019/5/12"
         }
     },
     "configs": {},
