@@ -31,6 +31,7 @@ func (s *Server) newOutfitRouter() *chi.Mux {
         outfitService: s.outfitService,
     }
     subrouter.Post("/insert", outfitRouter.insertOutfitHandler)
+    subrouter.Delete("/delete", outfitRouter.deleteOutfitHandler)
     return subrouter
 }
 
